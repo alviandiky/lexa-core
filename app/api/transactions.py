@@ -6,17 +6,16 @@ router = APIRouter()
 
 @router.post("/transactions")
 def ingest_transaction(payload: dict):
-    result = basic.evaluate(payload)
+    # 1. Jalankan policy (JANGAN DIPRETELI)
+    decision = basic.evaluate(payload)
 
+    # 2. Audit SELURUH decision object
     audit_entry = {
         "transaction": payload,
-        "decision": result["decision"],
-        "reason": result["reason"]
+        "decision": decision
     }
 
     logger.write(audit_entry)
 
-    return {
-        "decision": result["decision"],
-        "reason": result["reason"]
-    }
+    # 3. Kembalikan decision UTUH
+    return decision
