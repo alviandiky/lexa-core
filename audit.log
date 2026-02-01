@@ -1,0 +1,1 @@
+{"timestamp": "2026-02-01T03:20:24.104823", "entry": {"transaction": {"amount": 2000, "currency": "USD", "from": "alice", "to": "bob"}, "decision": "ALLOW", "reason": "Within allowed limits"}}
