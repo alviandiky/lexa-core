@@ -1,78 +1,88 @@
-# LEXA — Global Transactional Compliance & Enforcement Core
+# LEXA Core
 
-LEXA is an infrastructure-first compliance enforcement engine designed to evaluate, decide, and audit transactional events in real time.
+LEXA Core is a lightweight transactional compliance and enforcement service
+designed to provide deterministic policy decisions with full auditability.
 
-This repository contains the initial enterprise-grade MVP implementing:
-- Deterministic transaction evaluation
-- Explicit ALLOW / BLOCK enforcement
-- Immutable audit logging
-- API-first architecture
-
----
-
-## Core Principles
-
-- Infrastructure beats product
-- Deterministic decisions over probabilistic guesses
-- Every decision must be auditable
-- No feature without direct compliance impact
+The system focuses on correctness, traceability, and operational clarity,
+serving as a foundational component for environments that require strict
+decision enforcement and post-event verification.
 
 ---
 
-## Current Capabilities (MVP)
+## Purpose
 
-### Health Check
-GET /health
+LEXA Core evaluates transactional requests against explicit policy rules
+and produces clear allow or block decisions, accompanied by immutable
+audit records.
 
-Returns system liveness status.
-
-### Transaction Evaluation
-POST /transactions
-
-Evaluates a transaction payload and returns:
-- decision: ALLOW or BLOCK
-- reason: deterministic rule outcome
-
-### Audit Log Access
-GET /audit
-
-Returns recorded audit trail of evaluated transactions.
+The project is intentionally scoped to ensure:
+- Deterministic behavior
+- Transparent decision reasoning
+- Reliable audit output
 
 ---
 
-## Architecture Overview
+## Key Characteristics
 
-- FastAPI (API layer)
-- Rule-based decision engine (core logic)
-- File-based audit log (append-only)
-- Stateless request processing
-
-Designed for future extension into:
-- External policy engines
-- Database-backed audit storage
-- Cryptographic audit integrity
+- Deterministic rule-based enforcement
+- Explicit allow / block outcomes
+- Append-only audit logging
+- Minimal and inspectable runtime surface
 
 ---
 
-## Running Locally
+## Current Capabilities
 
-Requirements:
-- Python 3.10+
-- Git
+The current implementation provides:
 
-Install dependencies:
-pip install -r requirements.txt
+- Health check endpoint
+- Transaction evaluation endpoint
+- Audit log generation and retrieval
 
-Run server:
-python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+These capabilities are intended to demonstrate enforcement flow,
+decision integrity, and audit trace generation.
 
-Access API:
-http://localhost:8000
+---
+
+## Architecture Notes
+
+LEXA Core is implemented as a stateless HTTP service with explicit
+input and output contracts.
+
+Design priorities emphasize:
+- Reliability over feature breadth
+- Traceability over optimization
+- Operational clarity over abstraction
+
+---
+
+## Usage Overview
+
+1. Submit a transaction request
+2. The system evaluates it against defined rules
+3. A decision is returned (allow or block)
+4. An audit record is written for every decision
+
+---
+
+## Scope & Intent
+
+LEXA Core does not attempt to manage user interfaces, orchestration layers,
+or external integrations.
+
+Its responsibility is limited to decision enforcement and audit trace
+generation.
 
 ---
 
 ## Status
 
-This project is an active foundational infrastructure.
-Scope is intentionally narrow.
-Every addition must reinforce compliance enforcement integrity.
+This project is under active development.
+Behavioral changes are deliberate and evaluated with respect to
+audit integrity and decision correctness.
+
+---
+
+## License
+
+[Add license information here]
