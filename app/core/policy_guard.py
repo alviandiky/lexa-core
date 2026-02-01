@@ -1,25 +1,20 @@
 from app.policies import basic
+from app.policies import basic_v2
+
+def _validate(policy):
+    if policy.DEPRECATED:
+        raise RuntimeError(
+            f"Policy {policy.RULE_VERSION} is deprecated and must not be loaded."
+        )
+
+    if not policy.RULE_VERSION:
+        raise RuntimeError("Policy version is missing.")
+
+    if not policy.RULE_HASH:
+        raise RuntimeError(
+            f"Policy {policy.RULE_VERSION} has no rule hash."
+        )
 
 def validate_policies():
-    """
-    Enforce policy immutability and lifecycle rules.
-    This runs at system startup.
-    """
-
-    # Rule 1: Deprecated policy must not be active
-    if basic.DEPRECATED:
-        raise RuntimeError(
-            f"Policy {basic.RULE_VERSION} is deprecated and must not be loaded."
-        )
-
-    # Rule 2: Rule hash must exist
-    if not basic.RULE_HASH:
-        raise RuntimeError(
-            f"Policy {basic.RULE_VERSION} has no rule hash."
-        )
-
-    # Rule 3: Rule version must exist
-    if not basic.RULE_VERSION:
-        raise RuntimeError(
-            "Policy version is missing."
-        )
+    _validate(basic)      # basic_v1
+    _validate(basic_v2)   # basic_v2
