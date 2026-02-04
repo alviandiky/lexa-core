@@ -3,35 +3,24 @@ import hashlib
 from datetime import datetime
 from pathlib import Path
 
-AUDIT_LOG_FILE = Path("audit.log")
+AUDIT_LOG_FILE = "audit.log"
+GENESIS_HASH = "GENESIS"
 
 
-def _get_last_hash() -> str:
-    if not AUDIT_LOG_FILE.exists():
-        return "0" * 64
-
-    try:
-        with AUDIT_LOG_FILE.open("r") as f:
-            last_line = None
-            for line in f:
-                last_line = line
-
-            if not last_line:
-                return "0" * 64
-
-            record = json.loads(last_line)
-            return record.get("hash", "0" * 64)
-    except Exception:
-        return "0" * 64
-
-
-def _calculate_hash(payload: dict) -> str:
-    serialized = json.dumps(payload, sort_keys=True).encode()
+def _compute_hash(record: dict) -> str:
+    serialized = json.dumps(record, sort_keys=True).encode()
     return hashlib.sha256(serialized).hexdigest()
 
 
 def write(entry: dict):
-    prev_hash = _get_last_hash()
+    log_path = Path(AUDIT_LOG_FILE)
+
+    if log_path.exists() and log_path.stat().st_size > 0:
+        last_line = log_path.read_text().strip().splitlines()[-1]
+        last_record = json.loads(last_line)
+        prev_hash = last_record["hash"]
+    else:
+        prev_hash = GENESIS_HASH
 
     record = {
         "timestamp": datetime.utcnow().isoformat(),
@@ -39,7 +28,12 @@ def write(entry: dict):
         "prev_hash": prev_hash,
     }
 
-    record["hash"] = _calculate_hash(record)
+    record["hash"] = _compute_hash(record)
 
-    with AUDIT_LOG_FILE.open("a") as f:
+    with open(AUDIT_LOG_FILE, "a") as f:
         f.write(json.dumps(record) + "\n")
+def write_system_event(event: dict):
+    write({
+        "type": "SYSTEM_EVENT",
+        "event": event
+    })

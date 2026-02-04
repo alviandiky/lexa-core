@@ -1,24 +1,29 @@
 from fastapi import APIRouter
-from app.policies import basic, basic_v2
+from app.policies.registry import load_policy
 from app.audit import logger
+from app.enforcement import hooks
 
 router = APIRouter()
 
 @router.post("/transactions")
 def ingest_transaction(payload: dict):
-    # === POLICY SELECTION (EXPLICIT) ===
-    policy = payload.get("policy", "v1")
+    policy_id = payload.get("policy", "basic_v1")
 
-    if policy == "v2":
-        decision = basic_v2.evaluate(payload)
-    else:
-        decision = basic.evaluate(payload)
+    policy = load_policy(policy_id)
+    result = policy.evaluate(payload)
 
-    audit_entry = {
+    context = {
         "transaction": payload,
-        "decision": decision
+        "decision": result
     }
 
-    logger.write(audit_entry)
+    # === AUDIT FIRST (NON-NEGOTIABLE) ===
+    logger.write(context)
 
-    return decision
+    # === ENFORCEMENT HOOKS ===
+    if result["decision"] == "BLOCK":
+        hooks.on_block(context)
+    else:
+        hooks.on_allow(context)
+
+    return result

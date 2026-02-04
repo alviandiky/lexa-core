@@ -1,0 +1,8 @@
+{
+  "active_policy": "basic_v1",
+  "status": "FROZEN",
+  "frozen_at": "2026-02-01T00:00:00Z",
+  "description": "Initial production policy freeze for LEXA CORE v0.1",
+  "allowed_policies": ["basic_v1"],
+  "governance_required": true
+}
