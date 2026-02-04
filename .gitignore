@@ -1,3 +1,9 @@
 __pycache__/
 .env
 .venv/
+
+# Audit history (do not commit)
+audit.log
+
+# Private evidence
+EVIDENCE_PACK/
