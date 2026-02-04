@@ -1,88 +1,91 @@
-# LEXA Core
+# LEXA CORE
 
-LEXA Core is a lightweight transactional compliance and enforcement service
-designed to provide deterministic policy decisions with full auditability.
+LEXA CORE is an **enforcement evidence engine**.  
+It produces **cryptographically verifiable proof** that enforcement decisions occurred under frozen rules — without requiring trust in the operator.
 
-The system focuses on correctness, traceability, and operational clarity,
-serving as a foundational component for environments that require strict
-decision enforcement and post-event verification.
+This repository is **not** a compliance workflow, dashboard, or real-time control system.
 
 ---
 
-## Purpose
+## What LEXA CORE Does
 
-LEXA Core evaluates transactional requests against explicit policy rules
-and produces clear allow or block decisions, accompanied by immutable
-audit records.
+- Records enforcement decisions with **immutable audit trails**
+- Cryptographically binds each decision to a **specific policy version**
+- Enables **independent, offline verification** of enforcement history
+- Eliminates the need to trust system operators or administrators
 
-The project is intentionally scoped to ensure:
-- Deterministic behavior
-- Transparent decision reasoning
-- Reliable audit output
+LEXA CORE produces **evidence**, not approvals.
 
 ---
 
-## Key Characteristics
+## What LEXA CORE Does *Not* Do
 
-- Deterministic rule-based enforcement
-- Explicit allow / block outcomes
-- Append-only audit logging
-- Minimal and inspectable runtime surface
+- No admin access
+- No overrides
+- No dashboards
+- No real-time integrations
+- No policy mutation without governance
 
----
-
-## Current Capabilities
-
-The current implementation provides:
-
-- Health check endpoint
-- Transaction evaluation endpoint
-- Audit log generation and retrieval
-
-These capabilities are intended to demonstrate enforcement flow,
-decision integrity, and audit trace generation.
+If any of the above are required, LEXA CORE is **not a fit**.
 
 ---
 
-## Architecture Notes
+## Verification Model
 
-LEXA Core is implemented as a stateless HTTP service with explicit
-input and output contracts.
+LEXA CORE operates under a **trust-minimized model**:
 
-Design priorities emphasize:
-- Reliability over feature breadth
-- Traceability over optimization
-- Operational clarity over abstraction
+- Audit logs are **hash-chained** and tamper-evident
+- Policies are **versioned and frozen**
+- Verification can be performed **independently**, without system access
+- The operator is **not a trusted party**
 
----
+A public cryptographic hash anchor for the LEXA CORE v0.1 Evidence Pack is published via GitHub Releases.
 
-## Usage Overview
-
-1. Submit a transaction request
-2. The system evaluates it against defined rules
-3. A decision is returned (allow or block)
-4. An audit record is written for every decision
+Verification does not require:
+- API access
+- Credentials
+- Runtime availability
+- Operator cooperation
 
 ---
 
-## Scope & Intent
+## Intended Use
 
-LEXA Core does not attempt to manage user interfaces, orchestration layers,
-or external integrations.
+LEXA CORE is intended for:
+- Independent audit verification
+- Regulatory or legal evidence review
+- Dispute resolution requiring deterministic proof
 
-Its responsibility is limited to decision enforcement and audit trace
-generation.
+LEXA CORE is **not** intended for:
+- Real-time transaction control
+- Interactive compliance management
+- Custom policy workflows
+
+---
+
+## Governance
+
+- Enforcement policies are **frozen**
+- Governance is active and explicit
+- Historical decisions cannot be altered without detection
+
+LEXA CORE prioritizes **finality over flexibility**.
+
+---
+
+## Positioning Statement
+
+LEXA CORE does not enforce compliance.  
+LEXA CORE produces **verifiable evidence of enforcement**.
+
+If verification cannot be performed independently, the system is considered invalid.
 
 ---
 
 ## Status
 
-This project is under active development.
-Behavioral changes are deliberate and evaluated with respect to
-audit integrity and decision correctness.
+- Audit chain: active and verifiable  
+- Policy: frozen  
+- Governance: enabled  
 
----
-
-## License
-
-[Add license information here]
+The system is operational as **evidence infrastructure**, not as a product surface.
